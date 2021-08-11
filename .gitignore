@@ -1,0 +1,9 @@
+node_modules
+logfile.log
+
+
+# exclude everything
+adminDashboard/*
+
+# exception to the rule
+!adminDashboard/.gitkeep 
