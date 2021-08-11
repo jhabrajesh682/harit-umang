@@ -41,7 +41,36 @@ function validateStudentLogin(student) {
     return result
 }
 
+function validateStudentWithRegex(student) {
+    console.log(student);
+    const format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+    let studentName = format.test(student.studentName)
+    let className = format.test(student.class)
+    let schoolName = format.test(student.schoolName)
+
+    if (schoolName) {
+        return ({
+            schoolName: student.schoolName,
+            status: false
+        })
+    }
+    else if (studentName) {
+        return ({
+            studentName: student.studentName,
+            status: false
+        })
+    }
+    else if (className) {
+        return ({
+            className: student.className,
+            status: false
+        })
+    }
+}
+
 
 module.exports.validateStudent = validateStudent
 module.exports.validateStudentSendOTP = validateStudentSendOTP
 module.exports.validateStudentLogin = validateStudentLogin
+module.exports.validateStudentWithRegex = validateStudentWithRegex

@@ -22,6 +22,7 @@ const studentSchema = new Schema({
 
     schoolName: {
         type: String,
+        ref: 'school',
         required: true
     },
     password: {

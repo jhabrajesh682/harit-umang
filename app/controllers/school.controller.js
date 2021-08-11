@@ -7,7 +7,6 @@ class school {
     async createSchool(req, res) {
 
         let { error } = validator.validateSchools(req.body)
-
         if (error) {
             return res.status(400).send({
                 status: false,
@@ -16,6 +15,15 @@ class school {
             })
         }
 
+        let specialCharacter = validator.validateSchoolWithRegex(req.body)
+
+        if (specialCharacter) {
+            return res.status(400).send({
+                message: 'Special characters not allowed',
+                error: specialCharacter
+
+            })
+        }
         try {
 
             let amabassdorLength = req.body.greenAmbassadorDetails.length
@@ -67,6 +75,15 @@ class school {
         }
 
         try {
+
+            let isSchoolExist = await schools.findById(req.body.schoolId).lean()
+            if (!isSchoolExist) {
+                return res.status(404).send({
+                    status: false,
+                    message: 'school not found pls enter valid school id'
+                })
+            }
+
             await schools.updateOne({
                 _id: req.body.schoolId
             }, { status: req.body.status })
@@ -86,6 +103,7 @@ class school {
 
     async getAllApprovedSchools(req, res) {
 
+
         let school = await schools.find({ status: true, active: true }).sort({ _id: -1 }).lean();
 
         return res.status(200).send({
@@ -96,6 +114,32 @@ class school {
 
     async DeactivateSchools(req, res) {
 
+        let { error } = validator.deactivateSchoolsValidate(req.body);
+        if (error) {
+            return res.status(400).send({
+                status: false,
+                message: 'failed',
+                error: error
+            })
+        }
+
+        let isValidSchool = await schools.findById(req.body.schoolId).lean();
+
+        if (!isValidSchool) {
+            return res.status(200).send({
+                status: false,
+                message: 'school not found pls enter valid school id'
+            })
+        }
+
+        await schools.updateOne({ _id: req.body.schoolId }, {
+            active: req.body.active
+        })
+
+        return res.status(200).send({
+            status: true,
+            message: 'school successfully deactivated'
+        })
     }
 
 }

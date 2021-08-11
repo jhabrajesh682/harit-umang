@@ -17,6 +17,15 @@ class project {
             })
         }
 
+        let regexError = validator.validateProjectRegex(req.body)
+
+        if (regexError) {
+            return res.status(400).send({
+                message: 'special characters are not allowed',
+                error: regexError
+            })
+        }
+
         try {
 
 

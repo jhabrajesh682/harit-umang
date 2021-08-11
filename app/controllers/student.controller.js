@@ -7,6 +7,7 @@ const key = process.env.secretKey;
 const otpGenerator = require("otp-generator");
 const mail = require('../helper/emailService')
 const jwt = require('../helper/jwt')
+const schools = require('../models/school.model')
 
 
 async function verifyHashAndOTP(hash, email, otp) {
@@ -32,9 +33,9 @@ class student {
 
     async generateOTPAndHashForRegister(req, res) {
 
-        console.log('called');
+
         let { error } = validate.validateStudentSendOTP(req.body)
-        console.log(error);
+
         if (error) {
             return res.status(400).send({
                 status: false,
@@ -43,14 +44,30 @@ class student {
             })
         }
 
+        let regexError = validate.validateStudentWithRegex(req.body)
+        if (regexError) {
+            return res.status(400).send({
+                message: 'special character are not allowed',
+                error: regexError
+            })
+        }
+
         //to check user is already exist or not
 
         let isUserExist = await studentSchema.findOne({ emailId: req.body.emailId }).lean()
-        console.log(isUserExist);
+
         if (isUserExist) {
             return res.status(400).send({
                 status: false,
                 message: 'user already exist'
+            })
+        }
+
+        let isValidSchoolId = await schools.findById(req.body.schoolName).lean()
+        if (isValidSchoolId) {
+            return res.status(404).send({
+                status: false,
+                message: 'pls enter valid school Id'
             })
         }
 
@@ -82,6 +99,13 @@ class student {
                 error: error
             })
         }
+        let regexError = validate.validateStudentWithRegex(req.body)
+        if (regexError) {
+            return res.status(400).send({
+                message: 'special character are not allowed',
+                error: regexError
+            })
+        }
 
         //verify OTP
 
@@ -110,7 +134,7 @@ class student {
         })
 
         const salt = await bcrypt.genSalt(10);
-        console.log("salt=========>❌ ", salt);
+
         students.password = await bcrypt.hash(students.password, salt);
 
         await students.save();

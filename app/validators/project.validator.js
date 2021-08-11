@@ -21,4 +21,41 @@ function submitProject(project) {
     return result
 }
 
+function validateProjectRegex(project) {
+
+    const format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+    let amountOfEWasteInWords = format.test(project.amountOfEWasteInWords)
+    let publicWasteInWords = format.test(project.publicWasteInWords)
+    let energySavedInWords = format.test(project.energySavedInWords)
+    let treePlantedInWords = format.test(project.treePlantedInWords)
+
+    if (amountOfEWasteInWords) {
+        return ({
+            amountOfEWasteInWords: project.amountOfEWasteInWords,
+            status: false
+        })
+    }
+    else if (publicWasteInWords) {
+        return ({
+            publicWasteInWords: project.publicWasteInWords,
+            status: false
+        })
+    }
+
+    else if (energySavedInWords) {
+        return ({
+            energySavedInWords: project.energySavedInWords,
+            status: false
+        })
+    }
+    else if (treePlantedInWords) {
+        return ({
+            treePlantedInWords: project.treePlantedInWords,
+            status: false
+        })
+    }
+}
+
 module.exports.submitProject = submitProject
+module.exports.validateProjectRegex = validateProjectRegex

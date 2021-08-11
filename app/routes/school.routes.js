@@ -11,4 +11,6 @@ router.post('/schoolApprove', [auth], schools.schoolApprovedByAdmin)
 
 router.get('/getAllActiveSchools', schools.getAllApprovedSchools)
 
+router.post('/deactivateSchool', [auth], schools.DeactivateSchools)
+
 module.exports = router
