@@ -31,4 +31,25 @@ async function sendMail(email, name, otp) {
     return true
 }
 
+
+async function sendForgotPassMail(email, name, otp) {
+    let message = `Hi ${name} <br>
+            <br>
+            Your OTP To change password is : ${otp}  <br>
+            <br>
+            Note: OTP is valid for only 5mins <br>
+            Thanks & Regards <br>
+           Panasonic Harit Umang Team
+                     `
+    let info = await transporter.sendMail({
+        from: '"Panasonic Harit Umang" <brajesh.jha@studiokrew.com>',
+        to: email,
+        subject: "OTP to Change password in Panasonic Harit Umang",
+        text: "New Mail",
+        html: `${message}`
+    });
+    console.log('mail sent');
+    return true
+}
 module.exports.sendMail = sendMail
+module.exports.sendForgotPassMail = sendForgotPassMail

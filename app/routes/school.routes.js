@@ -5,12 +5,12 @@ const schools = new school()
 
 router.post('/registerSchool', schools.createSchool)
 
-router.get('/getAllSchools', [auth], schools.getAllSchools);
+router.get('/getAllSchools', schools.getAllSchools);
 
-router.post('/schoolApprove', [auth], schools.schoolApprovedByAdmin)
+router.post('/schoolApprove', schools.schoolApprovedByAdmin)
 
 router.get('/getAllActiveSchools', schools.getAllApprovedSchools)
 
-router.post('/deactivateSchool', [auth], schools.DeactivateSchools)
+router.post('/deactivateSchool', schools.DeactivateSchools)
 
 module.exports = router

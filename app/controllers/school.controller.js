@@ -1,6 +1,6 @@
 const schools = require('../models/school.model');
 const validator = require('../validators/school.validator');
-
+const requestCount = require('../helper/userCallRequest')
 
 class school {
 
@@ -22,6 +22,16 @@ class school {
                 message: 'Special characters not allowed',
                 error: specialCharacter
 
+            })
+        }
+        let date = new Date()
+
+        await requestCount.saveUserRequest(req.body.emailId, 'createSchool', date.getTime())
+        let checkRequestCount = await requestCount.checkUserRequestCount(req.body.emailId, 'createSchool')
+        if (!checkRequestCount) {
+            return res.status(400).send({
+                status: false,
+                message: 'Too many request sent Pls wait for 2 minutes and then try again.'
             })
         }
         try {

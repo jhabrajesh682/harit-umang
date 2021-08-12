@@ -9,6 +9,8 @@ router.post('/studentRegister', students.createStudentRegister);
 
 router.post('/studentLogin', students.studentLogin)
 
+router.post('/forgotPasswordSendOTP', students.generateHashAndOTPForForgotPassword)
 
+router.post('/forgotPasswordVerifyOTP', students.verifyOTPAndChangePassword)
 
 module.exports = router

@@ -70,7 +70,31 @@ function validateStudentWithRegex(student) {
 }
 
 
+function validateStudentForGotPass(student) {
+    let schema = joi.object({
+        emailId: joi.string().email().required(),
+        password: joi.string().required()
+    })
+
+    let result = schema.validate(student)
+    return result
+}
+
+function verifyStudentForgotPasswordOTP(student) {
+    let schema = joi.object({
+        emailId: joi.string().email().required(),
+        password: joi.string().required(),
+        hash: joi.string().required(),
+        otp: joi.string().required()
+    })
+
+    let result = schema.validate(student)
+    return result
+}
+
 module.exports.validateStudent = validateStudent
 module.exports.validateStudentSendOTP = validateStudentSendOTP
 module.exports.validateStudentLogin = validateStudentLogin
 module.exports.validateStudentWithRegex = validateStudentWithRegex
+module.exports.validateStudentForGotPass = validateStudentForGotPass
+module.exports.verifyStudentForgotPasswordOTP = verifyStudentForgotPasswordOTP

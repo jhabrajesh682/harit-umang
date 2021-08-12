@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const jwt = require("jsonwebtoken");
+
 
 const studentSchema = new Schema({
 
@@ -28,15 +28,22 @@ const studentSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    count: {
+        type: Number
+    },
+    loginTime: {
+        type: Number
+    },
+    accountActiveStatus: {
+        type: Boolean,
+        default: true
+
     }
 }, {
     timestamps: true
 })
 
-// studentSchema.methods.getSignedJwtToken = function () {
-//     return jwt.sign({ id: this._id, Email: this.Email }, process.env.JWT_SECRET_KEY, {
-//         expiresIn: process.env.JWT_EXPIRY_TIME
-//     })
-// }
+
 
 module.exports = mongoose.model('student', studentSchema)

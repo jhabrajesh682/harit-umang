@@ -39,10 +39,11 @@ function deactivateSchoolsValidate(school) {
 
 function validateSchoolWithRegex(school) {
 
+    const formatAddress = /[`!@#$%^&*()_+\=\[\]{};':"\\|.<>\?~]/;
     const format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 
     let schoolName = format.test(school.schoolName)
-    let address = format.test(school.address)
+    let address = formatAddress.test(school.address)
     let state = format.test(school.state)
     let teacherName = format.test(school.teacherName)
     if (schoolName) {

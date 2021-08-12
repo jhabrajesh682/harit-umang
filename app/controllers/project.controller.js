@@ -1,7 +1,7 @@
 const projects = require('../models/project.model')
 const validator = require('../validators/project.validator')
-const path = require('path')
-
+const requestCount = require('../helper/userCallRequest')
+const students = require('../models/student.model')
 class project {
 
 
@@ -28,6 +28,13 @@ class project {
 
         try {
 
+            let isValidStudent = await students.findById(req.body.student).lean()
+            if (!isValidStudent) {
+                return res.status(404).send({
+                    status: false,
+                    message: 'student not found pls enter valid student Id'
+                })
+            }
 
             const extfile = req.files.pptFile.name
             let allExtName = extfile.split('.').slice(1).join('.')
@@ -57,6 +64,16 @@ class project {
                 })
 
                 await newProject.save()
+                let dateTime = new Date();
+
+                await requestCount.saveUserRequest(isValidStudent.emailId, 'submitProject', dateTime.getTime())
+                let checkRequestCount = await requestCount.checkUserRequestCount(isValidStudent.emailId, 'submitProject')
+                if (!checkRequestCount) {
+                    return res.status(400).send({
+                        status: false,
+                        message: 'too many request sent Pls wait for 2 minutes and then try again.'
+                    })
+                }
 
                 return res.status(200).send({
                     status: true,

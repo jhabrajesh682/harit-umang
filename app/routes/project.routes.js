@@ -4,7 +4,7 @@ const auth = require('../middlewares/auth')
 const projects = new project()
 
 
-router.post('/submitProjects', [auth], projects.submitProject)
+router.post('/submitProjects', projects.submitProject)
 
 router.post('/getAllProjects', [auth], projects.getAllProject)
 
