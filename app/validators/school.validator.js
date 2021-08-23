@@ -72,7 +72,17 @@ function validateSchoolWithRegex(school) {
     }
 }
 
+function validateSchoolId(school) {
+    let schema = joi.object({
+        schoolId: joi.string().required()
+    })
+
+    let result = schema.validate(school)
+    return result
+}
+
 module.exports.deactivateSchoolsValidate = deactivateSchoolsValidate
 module.exports.adminApprovesSchool = adminApprovesSchool
 module.exports.validateSchools = validateSchools
 module.exports.validateSchoolWithRegex = validateSchoolWithRegex
+module.exports.validateSchoolId = validateSchoolId

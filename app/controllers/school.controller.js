@@ -152,6 +152,30 @@ class school {
         })
     }
 
+    async getOneSchoolById(req, res) {
+
+        let { error } = validator.validateSchoolId(req.body)
+        if (error) {
+            return res.status(400).send({
+                status: false,
+                error: error
+            })
+        }
+        let schoolDetails = await schools.findById(req.body.schoolId).lean()
+
+        if (!schoolDetails) {
+            return res.status(404).send({
+                status: false,
+                message: 'school Not found'
+            })
+        }
+
+        return res.status(200).send({
+            status: true,
+            result: schoolDetails
+        })
+    }
+
 }
 
 module.exports = school

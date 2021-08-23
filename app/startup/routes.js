@@ -38,6 +38,8 @@ module.exports = function (server) {
   server.use('/api/v1/schools', require('../routes/school.routes'))
 
   server.use('/api/v1/projects', require('../routes/project.routes'))
+  server.use('/api/v1/admin', require('../routes/admin.routes'))
+  server.use('/api/v1/captcha', require('../routes/captcha.routes'))
 
   server.get('*.*', express.static(_admin_folder, { maxAge: '1y' }));
 

@@ -57,5 +57,15 @@ function validateProjectRegex(project) {
     }
 }
 
+function validateProjectId(project) {
+    let schema = joi.object({
+        projectId: joi.string().required()
+    })
+
+    let result = schema.validate(project)
+    return result
+}
+
 module.exports.submitProject = submitProject
+module.exports.validateProjectId = validateProjectId
 module.exports.validateProjectRegex = validateProjectRegex

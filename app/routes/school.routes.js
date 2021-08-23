@@ -1,16 +1,19 @@
 const router = require("express").Router();
 const school = require('../controllers/school.controller')
-const auth = require('../middlewares/auth')
+const admin = require('../middlewares/admin')
+
 const schools = new school()
 
 router.post('/registerSchool', schools.createSchool)
 
-router.get('/getAllSchools', schools.getAllSchools);
+router.get('/getAllSchools', [admin], schools.getAllSchools);
 
-router.post('/schoolApprove', schools.schoolApprovedByAdmin)
+router.post('/schoolApprove', [admin], schools.schoolApprovedByAdmin)
 
 router.get('/getAllActiveSchools', schools.getAllApprovedSchools)
 
-router.post('/deactivateSchool', schools.DeactivateSchools)
+router.post('/deactivateSchool', [admin], schools.DeactivateSchools)
+
+router.post('/getOneSchoolById', [admin], schools.getOneSchoolById)
 
 module.exports = router
